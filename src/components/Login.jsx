@@ -1,6 +1,7 @@
 import toast from 'react-hot-toast';
 import { useNavigate, useLocation } from 'react-router';
 import useAuth from '../hooks/useAuth';
+import axios from 'axios';
 
 const Login = () => {
   const { loginUser, googleLogin } = useAuth();
@@ -12,9 +13,28 @@ const Login = () => {
     try {
       const frm = loc?.state?.from?.pathname || '/';
       const user = await googleLogin();
+
       if (user) {
-        toast.success('Logged in with Google');
-        navigate(frm, { replace: true });
+        console.log(user);
+        // Extract necessary user data
+        const userData = {
+          name: user.displayName,
+          email: user.email,
+          photo: user.photoURL,
+        };
+
+        try {
+          const res = await axios.post('http://localhost:5001/users', userData);
+          if (res?.data?.success) {
+            toast.success(res?.data?.message);
+            navigate(frm, { replace: true });
+          }
+        } catch (error) {
+          toast.error(
+            error?.response?.data?.message ||
+              'Google login failed. Please try again.'
+          );
+        }
       }
     } catch (err) {
       toast.error('Google login failed. Please try again.');

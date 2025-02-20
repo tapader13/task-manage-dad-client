@@ -5,12 +5,17 @@ import { Toaster } from 'react-hot-toast';
 import ErrorPage from './components/ErrorPage';
 import Login from './components/Login';
 import HomePage from './components/home/HomePage';
+import PrivateRoute from './private/PrivateRoute';
 
 function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <HomePage />,
+      element: (
+        <PrivateRoute>
+          <HomePage />
+        </PrivateRoute>
+      ),
     },
 
     {
