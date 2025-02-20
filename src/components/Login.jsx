@@ -18,11 +18,12 @@ const Login = () => {
         console.log(user);
         // Extract necessary user data
         const userData = {
-          name: user.displayName,
-          email: user.email,
-          photo: user.photoURL,
+          name: user?.user?.displayName,
+          email: user?.user?.email,
+          photo: user?.user?.photoURL,
+          uid: user?.user?.uid,
         };
-
+        console.log(userData);
         try {
           const res = await axios.post('http://localhost:5001/users', userData);
           if (res?.data?.success) {
