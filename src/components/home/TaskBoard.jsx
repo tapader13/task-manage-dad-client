@@ -6,6 +6,7 @@ import ColumnContainer from './ColumnContainer';
 import {
   DndContext,
   DragOverlay,
+  MouseSensor,
   PointerSensor,
   TouchSensor,
   useSensor,
@@ -103,16 +104,25 @@ export default function TaskBoard() {
     });
   };
   const sensors = useSensors(
-    useSensor(
-      PointerSensor,
-      {
-        activationConstraint: {
-          distance: 20,
-        },
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
       },
-      TouchSensor
-    )
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 150,
+        tolerance: 10,
+      },
+    }),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        delay: 150,
+        tolerance: 10,
+      },
+    })
   );
+
   const handleDragOver = async (event) => {
     const { active, over } = event;
     if (!over) return;
@@ -195,7 +205,7 @@ export default function TaskBoard() {
         onDragEnd={handleDragEnd}
         onDragStart={handleDragStart}
       >
-        <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+        <div className='grid md:grid-cols-3 gap-6 '>
           <SortableContext items={coloumsId}>
             {/* {tasks?.length > 0 &&
               categories.map((category) => (
