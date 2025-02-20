@@ -15,6 +15,8 @@ export default function AddTaskModal({ isOpen, onClose }) {
         description,
         category,
         timestamp: new Date().toISOString(),
+        columnId:
+          category === 'To Do' ? '1' : category === 'In Progress' ? '2' : '3',
       });
       if (res?.data?.success) {
         toast.success(res.data.message);

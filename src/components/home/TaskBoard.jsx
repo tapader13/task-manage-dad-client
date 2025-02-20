@@ -105,6 +105,7 @@ export default function TaskBoard() {
     if (activeColumnId === overColumnId) {
       return;
     }
+    console.log(active, over);
     const isActiveTask = active.data.current?.type === 'task';
     const isOverTask = over.data.current?.type === 'task';
     if (!isActiveTask) return;
@@ -115,7 +116,16 @@ export default function TaskBoard() {
         );
         const overTaskIndex = tasks.findIndex((task) => task.id === over.id);
         tasks[activeTaskIndex].columnId = tasks[overTaskIndex].columnId;
-        return arrayMove(tasks, activeTaskIndex, overTaskIndex);
+        const reorderedTasks = arrayMove(tasks, activeTaskIndex, overTaskIndex);
+
+        // Set correct orderid for each task
+        const updatedTasks = reorderedTasks.map((task, index) => ({
+          ...task,
+          orderid: index + 1, // Update orderid based on new position
+        }));
+        console.log(updatedTasks);
+        return reorderedTasks;
+        // return arrayMove(tasks, activeTaskIndex, overTaskIndex);
       });
     }
     const isOverColumn = over.data.current?.type === 'column';
