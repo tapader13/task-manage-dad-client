@@ -3,13 +3,13 @@ import axios from 'axios';
 
 const fetchTasks = async () => {
   const { data } = await axios.get('http://localhost:5001/tasks');
-  console.log(data);
-  return data?.data;
+  console.log(data?.data);
+  return data?.data || [];
 };
 
 const useTasks = () => {
   const {
-    data: tasks,
+    data: tasks = [],
     isLoading,
     error,
     refetch: refetchTasks,

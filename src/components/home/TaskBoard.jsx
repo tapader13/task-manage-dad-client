@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import TaskColumn from './TaskColumn';
 import AddTaskButton from './AddTaskBUtton';
 import AddTaskModal from './AddTaskModal';
@@ -13,6 +13,7 @@ import {
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { createPortal } from 'react-dom';
 import useTasks from '../../hooks/useTasks';
+import axios from 'axios';
 
 export default function TaskBoard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,7 +33,33 @@ export default function TaskBoard() {
     },
   ]);
   const { tasks: ts, refetchTasks } = useTasks();
-  const [tasks, setTasks] = useState(ts);
+  const [tasks, setTasks] = useState([
+    // {
+    //   id: 1,
+    //   title: 'Task 1',
+    //   description: 'Description 1',
+    //   category: 'To Do',
+    //   columnId: '1',
+    //   timestamp: new Date().toISOString(),
+    //   orderid: 1,
+    // },
+    // {
+    //   id: 2,
+    //   title: 'Task 2',
+    //   description: 'Description 2',
+    //   category: 'To Do',
+    //   columnId: '1',
+    //   timestamp: new Date().toISOString(),
+    //   orderid: 2,
+    // },
+  ]);
+  useEffect(() => {
+    if (Array.isArray(ts)) {
+      setTasks(ts);
+    } else {
+      setTasks([]);
+    }
+  }, [ts]);
   const coloumsId = useMemo(
     () => categories.map((category) => category.id),
     [categories]
@@ -46,7 +73,7 @@ export default function TaskBoard() {
     }
   };
 
-  console.log(tasks);
+  console.log(tasks, 'column');
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over) return;
@@ -72,7 +99,7 @@ export default function TaskBoard() {
       },
     })
   );
-  const handleDragOver = (event) => {
+  const handleDragOver = async (event) => {
     const { active, over } = event;
     if (!over) return;
     const activeColumnId = active.id;
@@ -85,28 +112,42 @@ export default function TaskBoard() {
     const isOverTask = over.data.current?.type === 'task';
     if (!isActiveTask) return;
     if (isActiveTask && isOverTask) {
+      let reorderTasks = [];
       setTasks((tasks) => {
-        const activeTaskIndex = tasks.findIndex(
+        const activeTaskIndex = tasks?.findIndex(
           (task) => task.id === active.id
         );
-        const overTaskIndex = tasks.findIndex((task) => task.id === over.id);
+        const overTaskIndex = tasks?.findIndex((task) => task.id === over.id);
         tasks[activeTaskIndex].columnId = tasks[overTaskIndex].columnId;
         const reorderedTasks = arrayMove(tasks, activeTaskIndex, overTaskIndex);
 
         // Set correct orderid for each task
-        const updatedTasks = reorderedTasks.map((task, index) => ({
+        reorderTasks = reorderedTasks.map((task, index) => ({
           ...task,
           orderid: index + 1, // Update orderid based on new position
         }));
-        console.log(updatedTasks);
+        console.log(reorderTasks, 'reorderTasks');
+
         return reorderedTasks;
         // return arrayMove(tasks, activeTaskIndex, overTaskIndex);
       });
+      try {
+        const res = await axios.put(
+          'http://localhost:5001/tasks',
+          reorderTasks
+        );
+
+        if (res?.data?.success) {
+          refetchTasks(); // Refetch tasks after successful update
+        }
+      } catch (error) {
+        console.error('Error updating tasks:', error);
+      }
     }
     const isOverColumn = over.data.current?.type === 'column';
     if (isActiveTask && isOverColumn) {
       setTasks((tasks) => {
-        const activeTaskIndex = tasks.findIndex(
+        const activeTaskIndex = tasks?.findIndex(
           (task) => task.id === active.id
         );
         tasks[activeTaskIndex].columnId = over.id;
@@ -125,9 +166,17 @@ export default function TaskBoard() {
       >
         <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
           <SortableContext items={coloumsId}>
+            {/* {tasks?.length > 0 &&
+              categories.map((category) => (
+                <ColumnContainer
+                  tasks={tasks.filter((task) => task.columnId === category.id)}
+                  key={category.id}
+                  category={category}
+                />
+              ))} */}
             {categories.map((category) => (
               <ColumnContainer
-                tasks={tasks.filter((task) => task.columnId === category.id)}
+                tasks={tasks?.filter((task) => task.columnId === category.id)}
                 key={category.id}
                 category={category}
               />
