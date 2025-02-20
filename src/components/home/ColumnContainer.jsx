@@ -31,7 +31,7 @@ const ColumnContainer = ({ category, tasks }) => {
       <div className='flex-grow'>
         <SortableContext items={tasksId}>
           {tasks.map((task) => (
-            <TaskCard key={task.id} task={task} />
+            <TaskCard key={task._id} task={task} />
           ))}
         </SortableContext>
       </div>

@@ -2,9 +2,12 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import axios from 'axios';
 import useTasks from '../../hooks/useTasks';
+import { useState } from 'react';
+import UpdateModal from './UpdateModal';
 
 export default function TaskCard({ task }) {
   const { refetchTasks } = useTasks();
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { setNodeRef, attributes, listeners, transition, transform } =
     useSortable({
       id: task.id,
@@ -42,12 +45,25 @@ export default function TaskCard({ task }) {
           <span>{task.category}</span>
           <span>{new Date(task.timestamp).toLocaleString()}</span>
         </div>
-        <button
-          onClick={handleDelete}
-          className='mt-2 text-red-500 cursor-pointer hover:text-red-700 text-xs'
-        >
-          Delete
-        </button>
+        <div className='flex justify-center gap-5 items-center'>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className='mt-2 text-blue-500 cursor-pointer hover:text-blue-700 text-xs'
+          >
+            Update
+          </button>
+          <button
+            onClick={handleDelete}
+            className='mt-2 text-red-500 cursor-pointer hover:text-red-700 text-xs'
+          >
+            Delete
+          </button>
+        </div>
+        <UpdateModal
+          task={task}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
       </div>
     </div>
   );
