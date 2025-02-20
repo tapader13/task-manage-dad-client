@@ -1,8 +1,17 @@
 import { useEffect, useState } from 'react';
 import TaskCard from './TaskCard';
 import axios from 'axios';
-import { closestCorners, DndContext } from '@dnd-kit/core';
 import {
+  closestCorners,
+  DndContext,
+  MouseSensor,
+  PointerSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
@@ -21,8 +30,36 @@ export default function TaskColumn({ category }) {
   console.log(task);
   const filteredTasks =
     task && task.filter((task) => task.category === category);
+  const getPosition = (id) => {
+    return filteredTasks.findIndex((tak) => tak._id === id);
+  };
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+    if (active.id === over.id) {
+      return;
+    }
+
+    setTask(() => {
+      const originalPosition = getPosition(active.id);
+      const newPosition = getPosition(over.id);
+      return arrayMove(task, originalPosition, newPosition);
+    });
+  };
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    }),
+    useSensor(TouchSensor),
+    useSensor(MouseSensor)
+  );
   return (
-    <DndContext collisionDetection={closestCorners}>
+    <DndContext
+      sensors={sensors}
+      onDragEnd={handleDragEnd}
+      collisionDetection={closestCorners}
+    >
       <SortableContext
         strategy={verticalListSortingStrategy}
         items={filteredTasks.map((task) => task._id)}
