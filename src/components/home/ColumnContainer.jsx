@@ -11,6 +11,7 @@ const ColumnContainer = ({ category, tasks }) => {
         type: 'column',
         category,
       },
+      disabled: true,
     });
   const style = {
     transform: CSS.Transform.toString(transform),

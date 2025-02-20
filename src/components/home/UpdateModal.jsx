@@ -3,21 +3,24 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import useTasks from '../../hooks/useTasks';
 
-export default function UpdateModal({ isOpen, onClose }) {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('To Do');
+export default function UpdateModal({ isOpen, onClose, task }) {
+  const [title, setTitle] = useState(task.title);
+  const [description, setDescription] = useState(task.description);
+  const [category, setCategory] = useState(task.category);
   const { refetchTasks } = useTasks();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5001/tasks', {
+      const res = await axios.put('http://localhost:5001/tasks', {
         title,
         description,
         category,
         timestamp: new Date().toISOString(),
         columnId:
           category === 'Done' ? '3' : category === 'In Progress' ? '2' : '1',
+        _id: task._id,
+        orderid: task.orderid,
+        id: task.id,
       });
       if (res?.data?.success) {
         refetchTasks();
@@ -111,7 +114,7 @@ export default function UpdateModal({ isOpen, onClose }) {
               type='submit'
               className='px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500'
             >
-              Add Task
+              Update Task
             </button>
           </div>
         </form>

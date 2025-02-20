@@ -15,6 +15,7 @@ export default function TaskCard({ task }) {
         type: 'task',
         task,
       },
+      disabled: isModalOpen,
     });
   const style = {
     transform: CSS.Transform.toString(transform),
