@@ -1,5 +1,5 @@
 import toast from 'react-hot-toast';
-import { useNavigate, Link, useLocation } from 'react-router';
+import { useNavigate, useLocation } from 'react-router';
 import useAuth from '../hooks/useAuth';
 
 const Login = () => {
