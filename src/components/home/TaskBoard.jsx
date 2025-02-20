@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import TaskColumn from './TaskColumn';
 import AddTaskButton from './AddTaskBUtton';
+import AddTaskModal from './AddTaskModal';
 
 const categories = ['To Do', 'In Progress', 'Done'];
 
@@ -15,6 +16,10 @@ export default function TaskBoard() {
           <TaskColumn key={category} category={category} />
         ))}
       </div>
+      <AddTaskModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 }
