@@ -1,7 +1,9 @@
-import { useSortable } from '@dnd-kit/sortable';
+import { SortableContext, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import TaskCard from './TaskCard';
+import { useMemo } from 'react';
 
-const ColumnContainer = ({ category }) => {
+const ColumnContainer = ({ category, tasks }) => {
   const { setNodeRef, attributes, listeners, transition, transform } =
     useSortable({
       id: category.id,
@@ -14,6 +16,7 @@ const ColumnContainer = ({ category }) => {
     transform: CSS.Transform.toString(transform),
     transition,
   };
+  const tasksId = useMemo(() => tasks.map((task) => task.id), [tasks]);
   return (
     <div
       ref={setNodeRef}
@@ -25,7 +28,13 @@ const ColumnContainer = ({ category }) => {
       <div className='font-semibold mb-2 text-purple-700 text-lg'>
         {category.name}
       </div>
-      <div className='flex-grow'>content</div>
+      <div className='flex-grow'>
+        <SortableContext items={tasksId}>
+          {tasks.map((task) => (
+            <TaskCard key={task.id} task={task} />
+          ))}
+        </SortableContext>
+      </div>
     </div>
   );
 };

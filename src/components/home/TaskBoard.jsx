@@ -53,9 +53,9 @@ export default function TaskBoard() {
       id: 3,
       title: 'Task 3',
       description: 'Description 3',
-      category: 'To Do',
+      category: 'Done',
       timestamp: new Date(),
-      columnId: '1',
+      columnId: '3',
       orderid: 3,
     },
   ]);
@@ -97,10 +97,43 @@ export default function TaskBoard() {
       },
     })
   );
+  const handleDragOver = (event) => {
+    const { active, over } = event;
+    if (!over) return;
+    const activeColumnId = active.id;
+    const overColumnId = over.id;
+    if (activeColumnId === overColumnId) {
+      return;
+    }
+    const isActiveTask = active.data.current?.type === 'task';
+    const isOverTask = over.data.current?.type === 'task';
+    if (!isActiveTask) return;
+    if (isActiveTask && isOverTask) {
+      setTasks((tasks) => {
+        const activeTaskIndex = tasks.findIndex(
+          (task) => task.id === active.id
+        );
+        const overTaskIndex = tasks.findIndex((task) => task.id === over.id);
+        tasks[activeTaskIndex].columnId = tasks[overTaskIndex].columnId;
+        return arrayMove(tasks, activeTaskIndex, overTaskIndex);
+      });
+    }
+    const isOverColumn = over.data.current?.type === 'column';
+    if (isActiveTask && isOverColumn) {
+      setTasks((tasks) => {
+        const activeTaskIndex = tasks.findIndex(
+          (task) => task.id === active.id
+        );
+        tasks[activeTaskIndex].columnId = over.id;
+        return arrayMove(tasks, activeTaskIndex, activeTaskIndex);
+      });
+    }
+  };
   return (
     <div className='space-y-8'>
       <AddTaskButton onClick={() => setIsModalOpen(true)} />
       <DndContext
+        onDragOver={handleDragOver}
         sensors={sensors}
         onDragEnd={handleDragEnd}
         onDragStart={handleDragStart}
