@@ -60,6 +60,11 @@ export default function TaskBoard() {
       setTasks([]);
     }
   }, [ts]);
+  // useEffect(() => {
+  //   if (Array.isArray(ts) && ts !== tasks) {
+  //     setTasks(ts);
+  //   }
+  // }, []);
   const coloumsId = useMemo(
     () => categories.map((category) => category.id),
     [categories]
@@ -73,7 +78,7 @@ export default function TaskBoard() {
     }
   };
 
-  console.log(tasks, 'column');
+  console.log(ts, 'ts');
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over) return;
