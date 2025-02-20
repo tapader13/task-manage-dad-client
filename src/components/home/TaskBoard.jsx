@@ -146,13 +146,30 @@ export default function TaskBoard() {
     }
     const isOverColumn = over.data.current?.type === 'column';
     if (isActiveTask && isOverColumn) {
+      let finalOrder = [];
       setTasks((tasks) => {
         const activeTaskIndex = tasks?.findIndex(
           (task) => task.id === active.id
         );
         tasks[activeTaskIndex].columnId = over.id;
-        return arrayMove(tasks, activeTaskIndex, activeTaskIndex);
+        const reorderTask = arrayMove(tasks, activeTaskIndex, activeTaskIndex);
+        finalOrder = reorderTask.map((task, index) => ({
+          ...task,
+          orderid: index + 1,
+        }));
+        console.log(finalOrder, 'finalOrder');
+        return reorderTask;
+        // return arrayMove(tasks, activeTaskIndex, activeTaskIndex);
       });
+      try {
+        const res = await axios.put('http://localhost:5001/tasks', finalOrder);
+
+        if (res?.data?.success) {
+          refetchTasks(); // Refetch tasks after successful update
+        }
+      } catch (error) {
+        console.error('Error updating tasks:', error);
+      }
     }
   };
   return (
