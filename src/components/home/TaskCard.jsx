@@ -1,7 +1,10 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import axios from 'axios';
+import useTasks from '../../hooks/useTasks';
 
 export default function TaskCard({ task }) {
+  const { refetchTasks } = useTasks();
   const { setNodeRef, attributes, listeners, transition, transform } =
     useSortable({
       id: task.id,
@@ -13,6 +16,16 @@ export default function TaskCard({ task }) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+  };
+  const handleDelete = async () => {
+    try {
+      const res = await axios.delete(`http://localhost:5001/tasks/${task._id}`);
+      if (res?.data?.success) {
+        refetchTasks();
+      }
+    } catch (error) {
+      console.error('Error deleting task:', error);
+    }
   };
   return (
     <div
@@ -29,6 +42,12 @@ export default function TaskCard({ task }) {
           <span>{task.category}</span>
           <span>{new Date(task.timestamp).toLocaleString()}</span>
         </div>
+        <button
+          onClick={handleDelete}
+          className='mt-2 text-red-500 cursor-pointer hover:text-red-700 text-xs'
+        >
+          Delete
+        </button>
       </div>
     </div>
   );
