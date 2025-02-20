@@ -7,6 +7,7 @@ import {
   DndContext,
   DragOverlay,
   PointerSensor,
+  TouchSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
@@ -53,18 +54,22 @@ export default function TaskBoard() {
     //   orderid: 2,
     // },
   ]);
-  useEffect(() => {
-    if (Array.isArray(ts)) {
-      setTasks(ts);
-    } else {
-      setTasks([]);
-    }
-  }, [ts]);
   // useEffect(() => {
-  //   if (Array.isArray(ts) && ts !== tasks) {
+  //   if (Array.isArray(ts)) {
   //     setTasks(ts);
+  //   } else {
+  //     setTasks([]);
   //   }
-  // }, []);
+  // }, [ts]);
+  useEffect(() => {
+    // Ensure tasks are set only if the response is a valid array
+    if (Array.isArray(ts) && ts.length) {
+      setTasks(ts); // Only update if there are valid tasks
+    } else {
+      setTasks([]); // Clear tasks if ts is not valid
+    }
+  }, [ts]); // Dependencies ensure this runs when ts changes
+
   const coloumsId = useMemo(
     () => categories.map((category) => category.id),
     [categories]
@@ -98,11 +103,15 @@ export default function TaskBoard() {
     });
   };
   const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 50,
+    useSensor(
+      PointerSensor,
+      {
+        activationConstraint: {
+          distance: 20,
+        },
       },
-    })
+      TouchSensor
+    )
   );
   const handleDragOver = async (event) => {
     const { active, over } = event;
