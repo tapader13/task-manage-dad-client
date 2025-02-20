@@ -12,6 +12,7 @@ import {
 } from '@dnd-kit/core';
 import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { createPortal } from 'react-dom';
+import useTasks from '../../hooks/useTasks';
 
 export default function TaskBoard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -30,35 +31,8 @@ export default function TaskBoard() {
       name: 'Done',
     },
   ]);
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      title: 'Task 1',
-      description: 'Description 1',
-      category: 'To Do',
-      timestamp: new Date(),
-      columnId: '1',
-      orderid: 1,
-    },
-    {
-      id: 2,
-      title: 'Task 2',
-      description: 'Description 2',
-      category: 'To Do',
-      timestamp: new Date(),
-      columnId: '1',
-      orderid: 2,
-    },
-    {
-      id: 3,
-      title: 'Task 3',
-      description: 'Description 3',
-      category: 'Done',
-      timestamp: new Date(),
-      columnId: '3',
-      orderid: 3,
-    },
-  ]);
+  const { tasks: ts, refetchTasks } = useTasks();
+  const [tasks, setTasks] = useState(ts);
   const coloumsId = useMemo(
     () => categories.map((category) => category.id),
     [categories]
@@ -72,6 +46,7 @@ export default function TaskBoard() {
     }
   };
 
+  console.log(tasks);
   const handleDragEnd = (event) => {
     const { active, over } = event;
     if (!over) return;
