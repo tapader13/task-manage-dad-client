@@ -47,7 +47,7 @@ export default function UpdateModal({ isOpen, onClose, task }) {
   return (
     <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4'>
       <div className='bg-white rounded-lg p-6 w-full max-w-md'>
-        <h2 className='text-2xl font-bold mb-4 text-gray-800'>Add New Task</h2>
+        <h2 className='text-2xl font-bold mb-4 text-gray-800'>Update Task</h2>
         <form onSubmit={handleSubmit}>
           <div className='mb-4'>
             <label

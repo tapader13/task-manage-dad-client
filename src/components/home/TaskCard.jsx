@@ -40,22 +40,26 @@ export default function TaskCard({ task }) {
       className='bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-200 cursor-grab mb-5'
     >
       <div>
-        <h3 className='font-semibold mb-2 text-purple-700'>{task.title}</h3>
+        <h3 className='font-semibold mb-2 text-xl uppercase text-purple-700'>
+          {task.title}
+        </h3>
         <p className='text-sm text-gray-600 mb-2'>{task.description}</p>
         <div className='flex justify-between items-center text-xs text-gray-500'>
-          <span>{task.category}</span>
+          <span className='text-xs italic bg-purple-200 p-1 rounded-md'>
+            {task.category}
+          </span>
           <span>{new Date(task.timestamp).toLocaleString()}</span>
         </div>
-        <div className='flex justify-center gap-5 items-center'>
+        <div className='flex mt-5 justify-center gap-5 items-center'>
           <button
             onClick={() => setIsModalOpen(true)}
-            className='mt-2 text-blue-500 cursor-pointer hover:text-blue-700 text-xs'
+            className='mt-2 border p-2 rounded-md text-purple-500 cursor-pointer hover:text-  purple-700 text-xs'
           >
             Update
           </button>
           <button
             onClick={handleDelete}
-            className='mt-2 text-red-500 cursor-pointer hover:text-red-700 text-xs'
+            className='mt-2 border p-2 rounded-md text-red-500 cursor-pointer hover:text-red-700 text-xs'
           >
             Delete
           </button>

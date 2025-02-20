@@ -24,7 +24,7 @@ const ColumnContainer = ({ category, tasks }) => {
       {...attributes}
       {...listeners}
       style={style}
-      className='bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-200 h-[500px] flex flex-col'
+      className='bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-200 h-[500px] overflow-y-auto flex flex-col'
     >
       <div className='font-semibold mb-2 text-purple-700 text-lg'>
         {category.name}
