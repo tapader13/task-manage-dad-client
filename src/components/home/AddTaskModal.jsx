@@ -2,12 +2,14 @@ import axios from 'axios';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import useTasks from '../../hooks/useTasks';
+import useAuth from '../../hooks/useAuth';
 
 export default function AddTaskModal({ isOpen, onClose }) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('To Do');
   const { refetchTasks } = useTasks();
+  const { user } = useAuth();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -17,6 +19,7 @@ export default function AddTaskModal({ isOpen, onClose }) {
           title,
           description,
           category,
+          userEmail: user?.email,
           timestamp: new Date().toISOString(),
           columnId:
             category === 'Done' ? '3' : category === 'In Progress' ? '2' : '1',

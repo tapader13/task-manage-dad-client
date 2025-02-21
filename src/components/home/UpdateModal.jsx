@@ -1,13 +1,14 @@
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import useTasks from '../../hooks/useTasks';
 
 export default function UpdateModal({ isOpen, onClose, task }) {
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
-  const [category, setCategory] = useState(task.category);
+
   const { refetchTasks } = useTasks();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -16,10 +17,10 @@ export default function UpdateModal({ isOpen, onClose, task }) {
         {
           title,
           description,
-          category,
+          category: task.category,
+          userEmail: task.userEmail,
           timestamp: task.timestamp,
-          columnId:
-            category === 'Done' ? '3' : category === 'In Progress' ? '2' : '1',
+          columnId: task.columnId,
           _id: task._id,
           orderid: task.orderid,
           id: task.id,
@@ -35,16 +36,26 @@ export default function UpdateModal({ isOpen, onClose, task }) {
     console.log({
       title,
       description,
-      category,
+      ts: task.category,
       timestamp: new Date().toISOString(),
     });
     onClose();
     // Reset form
-    setTitle('');
-    setDescription('');
-    setCategory('To Do');
+    // setTitle('');
+    // setDescription('');
+    // setCategory('');
   };
-
+  // useEffect(() => {
+  //   axios
+  //     .get(`https://task-manegment-backend.onrender.com/tasks/${task._id}`)
+  //     .then((res) => {
+  //       console.log(res, 'res');
+  //       setCategory(res.data.data.category);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }, []);
   if (!isOpen) return null;
 
   return (
@@ -92,17 +103,26 @@ export default function UpdateModal({ isOpen, onClose, task }) {
             >
               Category
             </label>
-            <select
-              id='category'
-              value={category}
-              required
-              onChange={(e) => setCategory(e.target.value)}
-              className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500'
-            >
-              <option value='To Do'>To Do</option>
-              <option value='In Progress'>In Progress</option>
-              <option value='Done'>Done</option>
-            </select>
+            <input
+              readOnly
+              className='text-xs'
+              type='text'
+              name=''
+              value={task.category}
+              id=''
+            />
+            {/* <select
+                id='category'
+                value={category}
+                required
+                // defaultValue={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500'
+              >
+                <option value='To Do'>To Do</option>
+                <option value='In Progress'>In Progress</option>
+                <option value='Done'>Done</option>
+              </select> */}
           </div>
           <div className='flex justify-end space-x-2'>
             <button
