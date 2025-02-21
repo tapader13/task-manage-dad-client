@@ -12,7 +12,7 @@ export default function AddTaskModal({ isOpen, onClose }) {
     e.preventDefault();
     try {
       const res = await axios.post(
-        'https://drag-drop-server-amber.vercel.app/tasks',
+        'https://task-manegment-backend.onrender.com/tasks',
         {
           title,
           description,

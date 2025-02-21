@@ -26,7 +26,7 @@ const Login = () => {
         console.log(userData);
         try {
           const res = await axios.post(
-            'https://drag-drop-server-amber.vercel.app/users',
+            'https://task-manegment-backend.onrender.com/users',
             userData
           );
           if (res?.data?.success) {
@@ -34,14 +34,14 @@ const Login = () => {
             navigate(frm, { replace: true });
           }
         } catch (error) {
+          console.log(error);
           toast.error(
-            error?.response?.data?.message ||
-              'Google login failed. Please try again.'
+            error?.response?.data?.message || 'error in post user info'
           );
         }
       }
     } catch (err) {
-      toast.error('Google login failed. Please try again.');
+      toast.error(err || 'Google login failed. Please try again.');
     }
   };
 

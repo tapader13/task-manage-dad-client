@@ -16,10 +16,12 @@ import { arrayMove, SortableContext } from '@dnd-kit/sortable';
 import { createPortal } from 'react-dom';
 import useTasks from '../../hooks/useTasks';
 import axios from 'axios';
+import useAuth from '../../hooks/useAuth';
 
 export default function TaskBoard() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeColumn, setActiveColumn] = useState(null);
+  const { user } = useAuth();
   const [categories, setCategories] = useState([
     {
       id: '1',
@@ -157,7 +159,7 @@ export default function TaskBoard() {
       });
       try {
         const res = await axios.put(
-          'https://drag-drop-server-amber.vercel.app/tasks',
+          'https://task-manegment-backend.onrender.com/tasks',
           reorderTasks
         );
 
@@ -187,7 +189,7 @@ export default function TaskBoard() {
       });
       try {
         const res = await axios.put(
-          'https://drag-drop-server-amber.vercel.app/tasks',
+          'https://task-manegment-backend.onrender.com/tasks',
           finalOrder
         );
 
@@ -220,7 +222,12 @@ export default function TaskBoard() {
               ))} */}
             {categories.map((category) => (
               <ColumnContainer
-                tasks={tasks?.filter((task) => task.columnId === category.id)}
+                tasks={tasks?.filter(
+                  (task) =>
+                    task.columnId === category.id &&
+                    task.userEmail === user?.email
+                )}
+                // tasks={tasks?.filter((task) => task.columnId === category.id)}
                 key={category.id}
                 category={category}
               />

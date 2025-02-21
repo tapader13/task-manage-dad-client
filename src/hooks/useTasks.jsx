@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const fetchTasks = async () => {
   const { data } = await axios.get(
-    'https://drag-drop-server-amber.vercel.app/tasks'
+    'https://task-manegment-backend.onrender.com/tasks'
   );
   console.log(data?.data);
   return data?.data || [];

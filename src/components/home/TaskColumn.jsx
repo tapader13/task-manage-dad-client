@@ -21,7 +21,7 @@ export default function TaskColumn({ category }) {
   useEffect(() => {
     const fetchTasks = async () => {
       const res = await axios.get(
-        'https://drag-drop-server-amber.vercel.app/tasks'
+        'https://task-manegment-backend.onrender.com/tasks'
       );
       if (res.data.success) {
         setTask(res.data.data);

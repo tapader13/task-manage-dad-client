@@ -12,7 +12,7 @@ export default function UpdateModal({ isOpen, onClose, task }) {
     e.preventDefault();
     try {
       const res = await axios.put(
-        `https://drag-drop-server-amber.vercel.app/tasks/${task._id}`,
+        `https://task-manegment-backend.onrender.com/tasks/${task._id}`,
         {
           title,
           description,
