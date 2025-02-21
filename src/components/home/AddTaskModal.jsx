@@ -42,7 +42,7 @@ export default function AddTaskModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className='fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4'>
+    <div className='fixed inset-0 bg-gray-950 bg-opacity-50 flex justify-center items-center p-4'>
       <div className='bg-white rounded-lg p-6 w-full max-w-md'>
         <h2 className='text-2xl font-bold mb-4 text-gray-800'>Add New Task</h2>
         <form onSubmit={handleSubmit}>
@@ -102,13 +102,13 @@ export default function AddTaskModal({ isOpen, onClose }) {
             <button
               type='button'
               onClick={onClose}
-              className='px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400'
+              className='px-4 cursor-pointer py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-400'
             >
               Cancel
             </button>
             <button
               type='submit'
-              className='px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500'
+              className='px-4 cursor-pointer py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500'
             >
               Add Task
             </button>
