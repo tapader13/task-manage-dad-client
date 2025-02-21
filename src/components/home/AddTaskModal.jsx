@@ -11,14 +11,17 @@ export default function AddTaskModal({ isOpen, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5001/tasks', {
-        title,
-        description,
-        category,
-        timestamp: new Date().toISOString(),
-        columnId:
-          category === 'Done' ? '3' : category === 'In Progress' ? '2' : '1',
-      });
+      const res = await axios.post(
+        'https://drag-drop-server-amber.vercel.app/tasks',
+        {
+          title,
+          description,
+          category,
+          timestamp: new Date().toISOString(),
+          columnId:
+            category === 'Done' ? '3' : category === 'In Progress' ? '2' : '1',
+        }
+      );
       if (res?.data?.success) {
         refetchTasks();
         toast.success(res.data.message);

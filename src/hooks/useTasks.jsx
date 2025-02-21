@@ -2,7 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 const fetchTasks = async () => {
-  const { data } = await axios.get('http://localhost:5001/tasks');
+  const { data } = await axios.get(
+    'https://drag-drop-server-amber.vercel.app/tasks'
+  );
   console.log(data?.data);
   return data?.data || [];
 };

@@ -157,7 +157,7 @@ export default function TaskBoard() {
       });
       try {
         const res = await axios.put(
-          'http://localhost:5001/tasks',
+          'https://drag-drop-server-amber.vercel.app/tasks',
           reorderTasks
         );
 
@@ -186,7 +186,10 @@ export default function TaskBoard() {
         // return arrayMove(tasks, activeTaskIndex, activeTaskIndex);
       });
       try {
-        const res = await axios.put('http://localhost:5001/tasks', finalOrder);
+        const res = await axios.put(
+          'https://drag-drop-server-amber.vercel.app/tasks',
+          finalOrder
+        );
 
         if (res?.data?.success) {
           refetchTasks(); // Refetch tasks after successful update

@@ -20,7 +20,9 @@ export default function TaskColumn({ category }) {
   const [task, setTask] = useState([]);
   useEffect(() => {
     const fetchTasks = async () => {
-      const res = await axios.get('http://localhost:5001/tasks');
+      const res = await axios.get(
+        'https://drag-drop-server-amber.vercel.app/tasks'
+      );
       if (res.data.success) {
         setTask(res.data.data);
       }

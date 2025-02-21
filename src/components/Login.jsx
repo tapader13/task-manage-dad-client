@@ -25,7 +25,10 @@ const Login = () => {
         };
         console.log(userData);
         try {
-          const res = await axios.post('http://localhost:5001/users', userData);
+          const res = await axios.post(
+            'https://drag-drop-server-amber.vercel.app/users',
+            userData
+          );
           if (res?.data?.success) {
             toast.success(res?.data?.message);
             navigate(frm, { replace: true });

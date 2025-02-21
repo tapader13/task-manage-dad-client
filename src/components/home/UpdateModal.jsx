@@ -11,17 +11,20 @@ export default function UpdateModal({ isOpen, onClose, task }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.put(`http://localhost:5001/tasks/${task._id}`, {
-        title,
-        description,
-        category,
-        timestamp: task.timestamp,
-        columnId:
-          category === 'Done' ? '3' : category === 'In Progress' ? '2' : '1',
-        _id: task._id,
-        orderid: task.orderid,
-        id: task.id,
-      });
+      const res = await axios.put(
+        `https://drag-drop-server-amber.vercel.app/tasks/${task._id}`,
+        {
+          title,
+          description,
+          category,
+          timestamp: task.timestamp,
+          columnId:
+            category === 'Done' ? '3' : category === 'In Progress' ? '2' : '1',
+          _id: task._id,
+          orderid: task.orderid,
+          id: task.id,
+        }
+      );
       if (res?.data?.success) {
         refetchTasks();
         toast.success(res.data.message);

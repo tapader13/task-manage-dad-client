@@ -23,7 +23,9 @@ export default function TaskCard({ task }) {
   };
   const handleDelete = async () => {
     try {
-      const res = await axios.delete(`http://localhost:5001/tasks/${task._id}`);
+      const res = await axios.delete(
+        `https://drag-drop-server-amber.vercel.app/tasks/${task._id}`
+      );
       if (res?.data?.success) {
         refetchTasks();
       }
