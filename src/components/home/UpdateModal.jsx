@@ -71,7 +71,7 @@ export default function UpdateModal({ isOpen, onClose, task }) {
               htmlFor='description'
               className='block text-sm font-medium text-gray-700 mb-1'
             >
-              Description (required)
+              Description (optional)
             </label>
             <textarea
               id='description'
@@ -79,7 +79,6 @@ export default function UpdateModal({ isOpen, onClose, task }) {
               onChange={(e) => setDescription(e.target.value)}
               maxLength={200}
               rows={3}
-              required
               className='w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500'
             />
           </div>

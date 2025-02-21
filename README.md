@@ -6,7 +6,7 @@ The **Task Management Application** is a drag-and-drop task organizer that allow
 
 ## Live Demo
 
-🔗 [Live Application](#) 
+🔗 [Live Application](#https://drag-and-drop-728d6.web.app/) 
 
 ## Technologies Used
 
@@ -41,7 +41,7 @@ Ensure you have the following installed:
 1. Clone the repository:
 
    ```sh
-   git clone [your-repository-link]
+   git clone https://github.com/tapader13/task-manage-dad-client
    cd client
    ```
 
