@@ -29,7 +29,9 @@ const Login = () => {
             'https://task-manegment-backend.onrender.com/users',
             userData
           );
+          console.log(res, '45');
           if (res?.data?.success) {
+            console.log(res, 're');
             toast.success(res?.data?.message);
             navigate(frm, { replace: true });
           }

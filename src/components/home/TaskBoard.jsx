@@ -108,7 +108,7 @@ export default function TaskBoard() {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 5,
+        distance: 10,
       },
     }),
     useSensor(TouchSensor, {
