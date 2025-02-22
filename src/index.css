@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
-* {
-    touch-action: none;
+.parent {
+    touch-action: pan-y;
+}
+
+.children {
+    touch-action: none !important;
+
 }

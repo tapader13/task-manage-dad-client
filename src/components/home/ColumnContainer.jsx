@@ -4,6 +4,7 @@ import TaskCard from './TaskCard';
 import { useMemo } from 'react';
 
 const ColumnContainer = ({ category, tasks }) => {
+  const isDraggingDisabled = true;
   const { setNodeRef, attributes, listeners, transition, transform } =
     useSortable({
       id: category.id,
@@ -11,11 +12,12 @@ const ColumnContainer = ({ category, tasks }) => {
         type: 'column',
         category,
       },
-      disabled: true,
+      disabled: isDraggingDisabled,
     });
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
+    // pointerEvents: isDraggingDisabled ? 'none' : 'auto',
   };
   const tasksId = useMemo(() => tasks.map((task) => task.id), [tasks]);
   return (
@@ -24,7 +26,7 @@ const ColumnContainer = ({ category, tasks }) => {
       {...attributes}
       {...listeners}
       style={style}
-      className='bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-200 h-[250px] sm:h-[500px] overflow-y-auto flex flex-col'
+      className='bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-200 h-[300px] sm:h-[500px] overflow-y-auto flex flex-col'
     >
       <div className='font-semibold mb-1 sm:mb-2 text-purple-700 sm:text-lg text-xl'>
         {category.name}

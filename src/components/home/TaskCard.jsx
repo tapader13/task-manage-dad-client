@@ -39,7 +39,7 @@ export default function TaskCard({ task }) {
       {...attributes}
       {...listeners}
       style={style}
-      className='bg-white rounded-lg shadow-md p-2 sm:p-4 hover:shadow-lg transition-shadow duration-200 cursor-grab sm:mb-5 mb-2'
+      className='bg-white children rounded-lg shadow-md p-2 sm:p-4 hover:shadow-lg transition-shadow duration-200 cursor-grab sm:mb-5 mb-2'
     >
       <div>
         <h3 className='font-semibold mb-1 sm:mb-2 text-xl uppercase text-purple-700'>
